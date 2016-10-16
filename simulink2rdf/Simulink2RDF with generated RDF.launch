@@ -9,7 +9,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="cli.Simulink2RDF"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-slx &quot;C:\Users\Axel\git\oslc-adapter-simulink-oct6-2016\edu.gatech.mbsec.adapter.simulink\simulinkmodels\sldemo_househeat.slx&quot; -t rdfxml -f generated.rdf"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-slx &quot;C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\sldemo_househeat.slx,C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\TwoDOFRobotDynCon.slx&quot; -t rdfxml -f generated.rdf"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="simulink2rdf"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>

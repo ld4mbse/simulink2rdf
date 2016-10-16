@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 import edu.gatech.mbsec.adapter.simulink.services.OSLC4JSimulinkApplication;
 
 
@@ -34,16 +35,16 @@ import edu.gatech.mbsec.adapter.simulink.services.OSLC4JSimulinkApplication;
  */
 public class Simulink2XMIThread2 extends Thread {
 
-	String simulinkModelPath = OSLC4JSimulinkApplication.simulinkModelPath;
 	
 	
-	String folderPath ; 
+	
+	
 	
 	public void run() {
 		
 		// necessary to add that folder to the Matlab path
-		File file = new File(simulinkModelPath);
-		String folderPath = file.getParentFile().getAbsolutePath();
+//		File file = new File(simulinkModelPath);
+//		String folderPath = file.getParentFile().getAbsolutePath();
 		
 		
 		
@@ -56,11 +57,48 @@ public class Simulink2XMIThread2 extends Thread {
 //					.exec("matlab start /wait "
 //							+ "-nodisplay -nosplash -nodesktop -r " +
 //							"addpath('" + folderPath + "');addpath ('matlab');simulinkModel2xmi('" + simulinkModelPath + "');exit;");
+			
+			String[] simulinkModelsPathArray = OSLC4JSimulinkApplication.simulinkModelPaths.split(",");
+			
+			String argumentString = "";
+			for (String simulinkModelPath : simulinkModelsPathArray) {
+				File file = new File(simulinkModelPath);
+				String folderPath = file.getParentFile().getAbsolutePath();
+				argumentString = argumentString + "addpath('" + folderPath + "');";				
+			};			
+			argumentString = argumentString + "addpath('matlab');";
+			argumentString = argumentString + "simulinkModels2xmi({";
+			
+			int i = 0;
+			for (String simulinkModelPath : simulinkModelsPathArray) {
+				if(i > 0){
+					argumentString = argumentString + ",";
+				}
+				argumentString = argumentString + "'" + simulinkModelPath + "'";	
+				i++;
+			};			
+			argumentString = argumentString + "});";
+			
+			
+//			simulinkModels2xmi({'C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\sldemo_househeat.slx' 'C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\TwoDOFRobotDynCon.slx'})
+			
+			
+//			"addpath('" + folderPath + "');addpath('matlab');simulinkModel2xmi('" + simulinkModelPath + "');
+			
+			
+//			Process process = Runtime
+//					.getRuntime()
+//					.exec("matlab start /wait "
+//							+ "-nodisplay -nosplash -nodesktop -r " +
+//							"addpath('" + folderPath + "');addpath('matlab');simulinkModel2xmi('" + simulinkModelPath + "');exit;");
+			
 			Process process = Runtime
 					.getRuntime()
 					.exec("matlab start /wait "
 							+ "-nodisplay -nosplash -nodesktop -r " +
-							"addpath('" + folderPath + "');addpath('matlab');simulinkModel2xmi('" + simulinkModelPath + "');exit;");
+							argumentString + "exit;");
+			
+			
 			process.waitFor();									
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - startTime;

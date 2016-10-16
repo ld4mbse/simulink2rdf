@@ -123,10 +123,10 @@ public class SimulinkManager {
 	static String projectId;
 
 	public static void main(String[] args) {
-		loadSimulinkWorkingDirectory();
+		loadSimulinkModels();
 	}
 
-	public static synchronized void loadSimulinkWorkingDirectory() {
+	public static synchronized void loadSimulinkModels() {
 		if (simulinkWorkingDirectory != null) {
 			return;
 		}
@@ -368,7 +368,7 @@ public class SimulinkManager {
 		thread.start();
 		try {
 			thread.join();
-			System.out.println("Data read from " + OSLC4JSimulinkApplication.simulinkModelPath
+			System.out.println("Data read from " + OSLC4JSimulinkApplication.simulinkModelPaths
 					+ " and converted into RDF at " + new Date().toString());
 			
 			
@@ -947,7 +947,7 @@ public class SimulinkManager {
 		}
 
 		// change directory to Simulink model directory
-		matlabCommand.append("cd('" + OSLC4JSimulinkApplication.simulinkModelPath + "');");
+		matlabCommand.append("cd('" + OSLC4JSimulinkApplication.simulinkModelPaths + "');");
 		
 		// close and save model
 		matlabCommand.append("save_system('" + modelName + "');");
@@ -991,7 +991,7 @@ public class SimulinkManager {
 		return simulinkBlockQualifiedName;
 	}
 
-	public static void writeRDFtoXML() {
+	public static void writeRDF() {
 		
 		
 //		public static List<SimulinkModel> oslcSimulinkModels = new ArrayList<SimulinkModel>();
@@ -1022,7 +1022,7 @@ public class SimulinkManager {
 		        writer.setErrorHandler(new ErrorHandler());    
 		        
 		        // create generated rdf file name based on simulink file name
-		        String simulinkFilePath = OSLC4JSimulinkApplication.simulinkModelPath;
+		        String simulinkFilePath = OSLC4JSimulinkApplication.simulinkModelPaths;
 		        File file = new File(simulinkFilePath);
 		        String simulinkFileName = file.getName();
 		        simulinkFileName = simulinkFileName.replace(".slx", ".rdf");

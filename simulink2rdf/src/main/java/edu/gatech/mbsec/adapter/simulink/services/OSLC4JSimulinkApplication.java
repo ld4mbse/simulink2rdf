@@ -81,21 +81,13 @@ import edu.gatech.mbsec.adapter.simulink.application.SimulinkManager;
  */
 public class OSLC4JSimulinkApplication {
 
-	public static String simulinkModelPath = null;
+	public static String simulinkModelPaths = null;
 	public static String portNumber = null;
-	public static boolean syncWithSvnRepo = false;
-	public static String svnurl = null;
-	public static int delayInSecondsBetweenDataRefresh = 100000;
-	public static boolean useIndividualSubversionFiles = false;
+	
 
 	public static String svnUserName;
 	public static String svnPassword;
 
-	// public static String configFilePath =
-	// "oslc4jsimulink configuration/config.properties";
-	// public static String configFilePath = "configuration/config.properties";
-	// public static String configFilePath =
-	// "C:/Users/Axel/Desktop/apache-tomcat-7.0.59/configuration/config.properties";
 	public static String warConfigFilePath = "../oslc4jsimulink configuration/config.properties";
 	public static String localConfigFilePath = "oslc4jsimulink configuration/config.properties";
 	public static String configFilePath = null;
@@ -108,16 +100,14 @@ public class OSLC4JSimulinkApplication {
 
 		loadPropertiesFile();
 
-		String simulinkFilePath = OSLC4JSimulinkApplication.simulinkModelPath;
-		File file = new File(simulinkFilePath);
-		String simulinkFileName = file.getName();
-		simulinkFileName = simulinkFileName.replace(".slx", ".rdf");
-		Simulink2RDF.rdfFileLocation = simulinkFileName;
+		
+		
+		Simulink2RDF.rdfFileLocation = "C:/Users/rb16964/git/simulink2rdf/simulink2rdf/generated.rdf";
 
 		readDataFirstTime();
 
 		Simulink2RDF.outputMode = "rdfxml";
-		SimulinkManager.writeRDFtoXML();
+		SimulinkManager.writeRDF();
 
 	}
 
@@ -127,7 +117,7 @@ public class OSLC4JSimulinkApplication {
 
 		readDataFirstTime();
 
-		SimulinkManager.writeRDFtoXML();
+		SimulinkManager.writeRDF();
 
 	}
 
@@ -160,7 +150,7 @@ public class OSLC4JSimulinkApplication {
 
 				// get the property value
 
-				simulinkModelPath = prop.getProperty("simulinkModel");
+				simulinkModelPaths = prop.getProperty("simulinkModelPaths");
 				portNumber = prop.getProperty("portNumber");
 
 			} catch (IOException e) {
@@ -209,7 +199,7 @@ public class OSLC4JSimulinkApplication {
 				// get the property value
 
 				// simulinkModelPath = prop.getProperty("simulinkModel");
-				simulinkModelPath = Simulink2RDF.simulinkFileLocation;
+				simulinkModelPaths = Simulink2RDF.simulinkFileLocations;
 
 				portNumber = prop.getProperty("portNumber");
 
@@ -291,7 +281,7 @@ public class OSLC4JSimulinkApplication {
 
 		SimulinkManager.simulinkWorkingDirectory = null; // to reload
 															// models
-		SimulinkManager.loadSimulinkWorkingDirectory();
+		SimulinkManager.loadSimulinkModels();
 
 	}
 }

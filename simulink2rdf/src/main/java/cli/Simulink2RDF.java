@@ -14,7 +14,7 @@ import edu.gatech.mbsec.adapter.simulink.services.OSLC4JSimulinkApplication;
 public class Simulink2RDF {
 
 	public static String outputMode;
-	public static String simulinkFileLocation;
+	public static String simulinkFileLocations;
 	public static String rdfFileLocation;
 	public static String tdbdir;
 	
@@ -73,16 +73,18 @@ public class Simulink2RDF {
 			}
 			
 			if(cmd.hasOption("slx")) {
-				simulinkFileLocation = cmd.getOptionValue("slx");
-				File file = new File(simulinkFileLocation);
-				
-				if(!file.exists()){
-					System.err.println("Invalid location of Simulink model (file does not exist)");
-					formatter.printHelp( "simulink2rdf", options );
-					return;
-				}	
-				
-				System.out.println("simulinkFileLocation: " + simulinkFileLocation);
+				simulinkFileLocations = cmd.getOptionValue("slx");
+				String[] simulinkModelsPathArray = simulinkFileLocations.split(",");
+				for (String simulinkModelsPath : simulinkModelsPathArray) {
+					File file = new File(simulinkModelsPath);
+					if(!file.exists()){
+						System.err.println("Invalid location of Simulink model (file does not exist)");
+						System.err.println(file.getAbsolutePath());
+						formatter.printHelp( "simulink2rdf", options );
+						return;
+					}
+				};
+				System.out.println("simulinkFileLocation: " + simulinkFileLocations);
 			}
 			
 			
