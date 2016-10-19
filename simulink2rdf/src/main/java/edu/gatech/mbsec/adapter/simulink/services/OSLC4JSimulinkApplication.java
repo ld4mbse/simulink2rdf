@@ -104,6 +104,7 @@ public class OSLC4JSimulinkApplication {
 		
 		Simulink2RDF.rdfFileLocation = "C:/Users/rb16964/git/simulink2rdf/simulink2rdf/generated.rdf";
 
+		
 		readDataFirstTime();
 
 		Simulink2RDF.outputMode = "rdfxml";
@@ -113,7 +114,15 @@ public class OSLC4JSimulinkApplication {
 
 	public static void run() {
 
-		loadPropertiesFile2();
+		simulinkModelPaths = Simulink2RDF.simulinkFileLocations;
+		if(Simulink2RDF.host == null){
+			Simulink2RDF.host = "localhost";
+		}
+		if(Simulink2RDF.port == null){
+			Simulink2RDF.port = "8080";
+		}
+		SimulinkManager.baseHTTPURI = "http://" + Simulink2RDF.host + ":" + Simulink2RDF.port + "/oslc4jsimulink";
+//		loadPropertiesFile2();
 
 		readDataFirstTime();
 
@@ -199,7 +208,7 @@ public class OSLC4JSimulinkApplication {
 				// get the property value
 
 				// simulinkModelPath = prop.getProperty("simulinkModel");
-				simulinkModelPaths = Simulink2RDF.simulinkFileLocations;
+				
 
 				portNumber = prop.getProperty("portNumber");
 

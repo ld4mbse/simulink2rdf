@@ -18,6 +18,9 @@ public class Simulink2RDF {
 	public static String rdfFileLocation;
 	public static String tdbdir;
 	
+	public static String host;
+	public static String port;
+	
 	
 	public static void main(String[] args) {
 		// create Options object
@@ -99,7 +102,15 @@ public class Simulink2RDF {
 				System.out.println("outputMode: " + outputMode);
 			}
 			
+			if(cmd.hasOption("host")) {
+				host = cmd.getOptionValue("host");
+				System.out.println("host: " + host);
+			}
 			
+			if(cmd.hasOption("port")) {
+				port = cmd.getOptionValue("port");
+				System.out.println("port: " + port);
+			}
 			
 			
 			if(outputMode.equals("rdfxml")) {
