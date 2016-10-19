@@ -107,6 +107,16 @@
 
 	<build>
 
+		<resources>
+			<resource>
+				<directory>matlab</directory>
+				<targetPath>matlab</targetPath>
+			</resource>
+
+
+		</resources>
+
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -116,8 +126,8 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
-			
+
+
 			<!-- Make this jar executable -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

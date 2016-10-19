@@ -19,9 +19,12 @@ package edu.gatech.mbsec.adapter.simulink.matlab;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.io.OutputStream;
+import java.nio.file.Paths;
 
 import edu.gatech.mbsec.adapter.simulink.services.OSLC4JSimulinkApplication;
 
@@ -36,7 +39,7 @@ import edu.gatech.mbsec.adapter.simulink.services.OSLC4JSimulinkApplication;
 public class Simulink2XMIThread2 extends Thread {
 
 	
-	
+	public static String runMode = "java";
 	
 	
 	
@@ -65,8 +68,51 @@ public class Simulink2XMIThread2 extends Thread {
 				File file = new File(simulinkModelPath);
 				String folderPath = file.getParentFile().getAbsolutePath();
 				argumentString = argumentString + "addpath('" + folderPath + "');";				
-			};			
-			argumentString = argumentString + "addpath('matlab');";
+			};		
+			
+			// when running jar, the matlab script needs to exist outside the jar, else it cannot be found by the cmd bash script.
+			if(runMode.equals("jar")){
+				// get the current absolute path
+				String folderContainingJarPath = Paths.get(".").toAbsolutePath().normalize().toString();
+				// add it to the matlab workspace
+				argumentString = argumentString + "addpath('" + folderContainingJarPath + ");";
+				// only have simulinkModels2xmi script as external resource
+				// copy it from the jar and place it outside the jar
+				InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("matlab/simulinkModels2xmi.m");
+				// write the inputStream to a FileOutputStream
+				OutputStream outputStream =
+		                    new FileOutputStream(new File(folderContainingJarPath +"/simulinkModels2xmi.m"));
+				int read = 0;
+				byte[] bytes = new byte[1024];
+
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
+				}
+			}
+			else{
+//				argumentString = argumentString + "addpath('matlab');";
+				
+				// do a test in regular java mode to see if it works
+				
+				// get the current absolute path
+				String folderContainingJarPath = Paths.get(".").toAbsolutePath().normalize().toString();
+				// add it to the matlab workspace
+				argumentString = argumentString + "addpath('" + folderContainingJarPath + "');";
+				// only have simulinkModels2xmi script as external resource
+				// copy it from the jar and place it outside the jar
+				InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("matlab\\simulinkModels2xmi.m");
+				// write the inputStream to a FileOutputStream
+				OutputStream outputStream =
+		                    new FileOutputStream(new File(folderContainingJarPath +"\\simulinkModels2xmi.m"));
+				int read = 0;
+				byte[] bytes = new byte[1024];
+
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
+				}
+				
+			}
+			
 			argumentString = argumentString + "simulinkModels2xmi({";
 			
 			int i = 0;
