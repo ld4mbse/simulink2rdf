@@ -1,0 +1,3 @@
+Run the executable for example using this command:
+
+simulink2rdf.exe -slx "C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\sldemo_househeat.slx,C:\Users\rb16964\git\simulink2rdf\simulink2rdf\simulinkmodels\TwoDOFRobotDynCon.slx" -t rdfxml -f generated.rdf
